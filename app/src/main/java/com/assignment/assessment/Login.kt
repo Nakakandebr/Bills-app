@@ -45,18 +45,3 @@ class Login : AppCompatActivity() {
 
 }
 
-//        if (!error) {
-//            val intent = Intent(this, addedUser::class.java)
-//            startActivity(intent)
-//            Toast.makeText(this, "$firstName $lastName $email", Toast.LENGTH_LONG).show()
-//            finish()
-//        }
-//    }
-//
-//        fun clearErrors() {
-//            binding.tilFirstName.error = null
-//            binding.tilLastName.error = null
-//            binding.tilPhoneNumber.error = null
-//            binding.tilEmail.error = null
-//        }
-//    }

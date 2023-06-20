@@ -20,13 +20,13 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            validateContact()
+            validateForm()
             clearErrors()
         }
 
     }
 
-    fun validateContact() {
+    fun validateForm() {
        val userName = binding.etUserName.text.toString()
         val phoneNumber = binding.etPhoneNumber.text.toString()
         val email = binding.etEmail.text.toString()
