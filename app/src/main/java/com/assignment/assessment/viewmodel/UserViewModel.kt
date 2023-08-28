@@ -29,7 +29,4 @@ class UserViewModel:ViewModel() {
     }
 }
 
-//private fun <T> MutableLiveData<T>.postValue(body: RegisterRequest?) {
-//
-//}
 

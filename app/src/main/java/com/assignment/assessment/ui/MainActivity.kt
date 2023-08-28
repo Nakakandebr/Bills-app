@@ -1,5 +1,6 @@
 package com.assignment.assessment.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,8 +8,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.assignment.assessment.R
 import com.assignment.assessment.databinding.ActivityMainBinding
+import com.assignment.assessment.model.LoginResponse
 import com.assignment.assessment.model.RegisterRequest
+import com.assignment.assessment.utils.Constants
 import com.assignment.assessment.viewmodel.UserViewModel
 
 
@@ -76,13 +80,10 @@ class MainActivity : AppCompatActivity() {
             error = true
         }
         if (confirmpassword.isBlank()) {
-            binding.tilpassword.error = "password is required"
+            binding.tilpassword.error = getString(R.string.confirm_password_is_required)
             error = true
         }
-        if (confirmpassword != password) {
-            binding.tilpassword.error = "passwords must be equal"
-            error = true
-        }
+
 
         if (!error) {
 
@@ -97,6 +98,16 @@ class MainActivity : AppCompatActivity() {
             userViewModel.registerUser(registerRequest)
         }
     }
+  fun redirectUser(){
+val sharedPrefs = getSharedPreferences(Constants.PREFS , Context.MODE_PRIVATE)
+      val userId = sharedPrefs.getString(Constants.USER_ID , Constants.EMPTY_STRING)
+      if (userId.isNullOrBlank()){
+          startActivity(Intent(this , Login::class.java))
+      }
+      else{
+          startActivity(Intent(this,HomeActivity::class.java))
+      }
+  }
 }
 
 

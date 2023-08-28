@@ -1,5 +1,6 @@
 package com.assignment.assessment.ui
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,11 +8,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.assignment.assessment.HomeActivity
+import com.assignment.assessment.R
 import com.assignment.assessment.databinding.ActivityLoginBinding
 import com.assignment.assessment.model.LoginRequest
+import com.assignment.assessment.model.LoginResponse
+import com.assignment.assessment.utils.Constants
 import com.assignment.assessment.viewmodel.LoginViewModel
-import com.assignment.assessment.viewmodel.UserViewModel
 
 class Login : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -29,13 +31,18 @@ class Login : AppCompatActivity() {
             validateForm()
 
         }
-        userViewModel.errLiveData.observe(this, Observer {
-            err->Toast.makeText(this,err,Toast.LENGTH_LONG).show()
+        userViewModel.loginLiveData.observe(this, Observer { loginResponse->
             binding.progressBar2.visibility=View.GONE
-        })
-        userViewModel.loginLiveData.observe(this, Observer { loginResponse->binding.progressBar2.visibility=View.GONE
+            persistLogin(loginResponse)
             Toast.makeText(this,loginResponse.message,Toast.LENGTH_LONG).show()
-            startActivity(Intent(this,HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+
+
+        })
+        userViewModel.errLiveData.observe(this, Observer {
+                err->Toast.makeText(this,err,Toast.LENGTH_LONG).show()
+            binding.progressBar2.visibility=View.GONE
         })
 
     }
@@ -46,13 +53,13 @@ class Login : AppCompatActivity() {
         var error = false
 
         if (email.isBlank()) {
-            binding.tilconfirmEmail.error = "Email  is required"
+            binding.tilconfirmEmail.error = getString(R.string.email_is_required)
             error = true
 
         }
 
        if (password.isBlank()) {
-          binding.tilconfPassword.error = " Password is required"
+          binding.tilconfPassword.error = getString(R.string.password_is_required)
           error = true
 
        }
@@ -66,6 +73,13 @@ class Login : AppCompatActivity() {
             userViewModel.loginUser(loginRequest)
         }
 
+    }
+    fun persistLogin(loginResponse: LoginResponse){
+        val sharedPrefs  = getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        editor.putString(Constants.USER_ID , loginResponse.userId)
+        editor.putString(Constants.ACCESS_TOKEN, loginResponse.accessToken)
+        editor.apply()
     }
 
 }

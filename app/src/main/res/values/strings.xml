@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">assessment</string>
+    <string name="email_is_required">Email  is required</string>
+    <string name="password_is_required">" Password is required"</string>
+    <string name="passwords_must_be_equal">passwords must be equal</string>
+    <string name="confirm_password_is_required">" Confirm password is required"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="summary">Summary</string>
+    <string name="upcoming">UpComing</string>
+    <string name="paid">Paid</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="add_bill">Add Bill</string>
+    <string name="enterpassword">EnterPassword</string>
+    <string name="login">LogIn</string>
+    <string name="signup">SignUp</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="already_have_an_account">Already Have an Account ?</string>
+    <string-array name="frequencies">
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Quarterly</item>
+        <item>Annual</item>
+    </string-array>
 </resources>

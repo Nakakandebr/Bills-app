@@ -10,16 +10,18 @@
         android:id="@+id/tvSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="76dp"
-        android:text="LOGIN TO Bills"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="72dp"
+        android:text="@string/already_have_an_account"
+        android:textColor="#3F51B5"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilconfirmEmail"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="62dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="129dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,34 +29,36 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etconfirmEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Email" />
+            android:layout_width="330dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:hint="@string/enter_email" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilconfPassword"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_width="334dp"
+        android:layout_height="56dp"
         android:layout_marginTop="95dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilconfirmEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="EnterPassword" />
+            android:layout_width="336dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:hint="@string/enterpassword"
+            android:visibility="visible" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnloginn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="69dp"
-        android:text="LogIn"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilconfPassword" />
 
@@ -68,5 +72,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilconfirmEmail" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="172dp"
+        android:text="@string/signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnloginn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
