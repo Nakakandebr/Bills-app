@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="Name" />
+            android:text="@string/name" />
 
         <TextView
             android:id="@+id/tvAmount"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="Amount" />
+            android:text="@string/amount" />
 
         <TextView
             android:id="@+id/tvduedate"
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="Due Date" />
+            android:text="@string/due_date" />
 
         <TextView
             android:id="@+id/tvfrequency"
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="Frequency" />
+            android:text="@string/frequency" />
 
         <TextView
             android:id="@+id/tvBillId"
@@ -51,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="BillId" />
+            android:text="@string/billid" />
 
         <TextView
             android:id="@+id/tvuserId"
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="38dp"
-            android:text="UserId" />
+            android:text="@string/userid" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

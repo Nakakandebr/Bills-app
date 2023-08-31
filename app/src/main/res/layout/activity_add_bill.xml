@@ -109,22 +109,32 @@
         app:layout_constraintTop_toTopOf="@+id/tvDueDate"
         app:layout_constraintVertical_bias="0.411" />
 
+    <DatePicker
+        android:id="@+id/dpDueDate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvDueDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnsavebill"
+        app:layout_constraintTop_toBottomOf="@+id/spFrequency"
+        />
+
+
+
     <Button
         android:id="@+id/btnsavebill"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginTop="81dp"
-        android:text="Save Bill"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="232dp"
+        android:text="@string/save_bill"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spDueDate" />
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnsavebill"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
