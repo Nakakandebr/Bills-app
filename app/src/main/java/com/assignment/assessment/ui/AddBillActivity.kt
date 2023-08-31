@@ -1,126 +1,151 @@
 package com.assignment.assessment.ui
-//
-//import androidx.appcompat.app.AppCompatActivity
-//import android.os.Bundle
-//import android.widget.ArrayAdapter
-//import androidx.activity.viewModels
-//import com.assignment.assessment.R
-//import com.assignment.assessment.databinding.ActivityAddBillBinding
-//import com.assignment.assessment.viewmodel.BillsViewModel
-//import java.util.UUID
-//
-//class AddBillActivity : AppCompatActivity() {
-//    lateinit var binding :ActivityAddBillBinding
-//    val billsViewModel :BillsViewModel by viewModels()
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        binding= ActivityAddBillBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        setUpFrequencySpinner()
-//        setUpDueDateSpinner()
-//    }
-//    fun setUpFrequencySpinner(){
-//        val adapter = ArrayAdapter
-//            .createFromResource(this, R.array.frequencies,android.R.layout.simple_spinner_item)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.spFrequency.adapter = adapter
-//    }
-//    fun setUpDueDateSpinner(){
-//        val weeklyAdapter = ArrayAdapter(this , android.R.layout.simple_spinner_item , arrayOf(1,2,3,4,5,6,7))
-//        weeklyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        binding.spDueDate.adapter = weeklyAdapter
-//
-//        val billId = UUID.randomUUID().toString()
-//    }
-//
-//}
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.R
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import com.assignment.assessment.R
+import androidx.appcompat.app.AppCompatActivity
 import com.assignment.assessment.databinding.ActivityAddBillBinding
 import com.assignment.assessment.model.Bill
+import com.assignment.assessment.utils.Constants
 import com.assignment.assessment.viewmodel.BillsViewModel
+import java.util.Calendar
 import java.util.UUID
+
+
 class AddBillActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddBillBinding
+    lateinit var binding: ActivityAddBillBinding
     val billsViewModel: BillsViewModel by viewModels()
+    var selectedDate = 0
+    var selectedMonth = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBillBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
         setupFreqSpinner()
-        setupDueDateSpinner()
         binding.btnsavebill.setOnClickListener {
-            val selectedFrequency = binding.spFrequency.selectedItem.toString()
-            val selectedDueDate = binding.spDueDate.selectedItem.toString()
-            val billName = binding.etName.text.toString()
-            val billAmount = binding.etAmount.text.toString().toDouble()
-            val bill = Bill(
-                billId = UUID.randomUUID().toString(),
-                name = billName,
-                amount = billAmount,
-                frequency = selectedFrequency,
-                durDate = selectedDueDate,
-                userId = "USER_ID"
-            )
-            // Save the bill to your database using your ViewModel and Repository
-            billsViewModel.saveBill(bill)
-            finish()
-            // Navigate to the SummaryFragment
-            navigateToSummaryFragment()
+            validateBill()
         }
     }
-    private fun setupFreqSpinner() {
-        val adapter = ArrayAdapter.createFromResource(
-            this, R.array.frequencies, android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spFrequency.adapter = adapter
-    }
-    private fun setupDueDateSpinner() {
+
+    fun setupFreqSpinner() {
+        val frequencies = arrayOf(Constants.WEEKLY, Constants.MONTHLY, Constants.ANNUAL)
+        val freqAdapter = ArrayAdapter(this, R.layout.simple_spinner_item, frequencies)
+        freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spFrequency.adapter = freqAdapter
+
         binding.spFrequency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedFrequency = binding.spFrequency.selectedItem.toString()
-                val dueDateAdapter = when (selectedFrequency) {
-                    "Monthly" -> {
-                        val daysInMonth = 1..31
-                        ArrayAdapter(this@AddBillActivity, android.R.layout.simple_spinner_item, daysInMonth.toList())
+                when (binding.spFrequency.selectedItem.toString()) {
+                    Constants.WEEKLY -> {
+                        showSpinner()
+                        setUpDueDateSpinner(Array(7) { it + 1 })
                     }
-                    "Quarterly" -> {
-                        val daysInQuarter = 1..90
-                        ArrayAdapter(this@AddBillActivity, android.R.layout.simple_spinner_item, daysInQuarter.toList())
-                    }
-                    "Annual" -> {
-                        val daysInYear = 1..365
-                        ArrayAdapter(this@AddBillActivity, android.R.layout.simple_spinner_item, daysInYear.toList())
-                    }
-                    else -> {
-                        ArrayAdapter(this@AddBillActivity, android.R.layout.simple_spinner_item, arrayOf(1, 2, 3, 4, 5, 6, 7))
-                    }
+
+                        Constants.MONTHLY -> {
+                    showSpinner()
+                    setUpDueDateSpinner(Array(31) { it + 1 })
                 }
-                dueDateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.spDueDate.adapter = dueDateAdapter
+
+                        Constants.ANNUAL -> {
+                    showDatePicker()
+                    setupDpDueDate()
+                }
+                }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
             }
         }
     }
-    private fun navigateToSummaryFragment() {
-        val fragment = SummaryFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fcvHome, fragment) // Replace "fragment_container" with your container ID
-        transaction.addToBackStack(null)
-        transaction.commit()
+
+    fun showSpinner() {
+        binding.dpDueDate.hide()
+        binding.spDueDate.show()
     }
+
+    fun showDatePicker() {
+        binding.dpDueDate.show()
+        binding.spDueDate.hide()
+    }
+
+    fun setUpDueDateSpinner(dates: Array<Int>) {
+        val dueDateAdapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, dates)
+        dueDateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spDueDate.adapter = dueDateAdapter
+    }
+
+    fun setupDpDueDate() {
+        val cal = Calendar.getInstance()
+        binding.dpDueDate.init(
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ) { _, _, month, date ->
+            selectedDate = date
+            selectedMonth = month+1
+        }
+    }
+
+    fun validateBill(){
+        val name = binding.etName.text.toString()
+        val amount = binding.etAmount.text.toString()
+        val frequency = binding.spFrequency.selectedItem.toString()
+        val dueDate = if(frequency==Constants.ANNUAL){
+            "$selectedDate/$selectedMonth"
+        } else{
+            binding.spDueDate.selectedItem.toString()
+        }
+
+        var error = false
+        if(name.isBlank()){
+            error = true
+            binding.etName.error = getString(com.assignment.assessment.R.string.nam_is_required)
+        }
+
+        if(amount.isBlank()){
+            error = true
+            binding.etName.error = getString(com.assignment.assessment.R.string.amounts_is_required)
+        }
+
+        if(!error) {
+            val prefs = getSharedPreferences(Constants.PREFS, Context.MODE_PRIVATE)
+            val userId = prefs.getString(Constants.USER_ID, Constants.EMPTY_STRING)
+            val newBill = Bill(
+                name = name,
+                amount = amount.toDouble(),
+                frequency = frequency,
+                durDate = dueDate,
+                billId = UUID.randomUUID().toString(),
+                userId = userId.toString()
+            )
+            billsViewModel.saveBill(newBill)
+            clearForm()
+        }
+    }
+    fun clearForm(){
+        binding.etName.setText(Constants.EMPTY_STRING)
+        binding.etAmount.setText(Constants.EMPTY_STRING)
+        binding.spFrequency.setSelection(0)
+        showSpinner()
+        binding.spDueDate.setSelection(0)
+    }
+
+}
+
+fun View.show(){
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide(){
+    this.visibility = View.GONE
 }

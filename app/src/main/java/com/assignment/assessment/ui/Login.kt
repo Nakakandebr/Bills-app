@@ -29,6 +29,11 @@ class Login : AppCompatActivity() {
         super.onResume()
         binding.btnloginn.setOnClickListener {
             validateForm()
+            binding.btnSignIn.setOnClickListener{
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+
+            }
 
         }
         userViewModel.loginLiveData.observe(this, Observer { loginResponse->
